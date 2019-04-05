@@ -21,13 +21,39 @@ type ConstantInfo interface {
 	readInfo(reader *ClassReader)
 }
 
+//根据tag创建常量
 func newConstantInfo(tag uint8, cp ConstantPool) ConstantInfo {
 	switch tag {
 	case CONSTANT_Integer:
-		return
+		return &ConstantIntegerInfo{}
+	case CONSTANT_Float:
+		return &ConstantFloatInfo{}
+	case CONSTANT_Double:
+		return &ConstantDoubleInfo{}
+	case CONSTANT_Utf8:
+		return &ConstantUtf8Info{}
+	case CONSTANT_String:
+		return &ConstantStringInfo{}
+	case CONSTANT_Class:
+	case CONSTANT_Fieldref:
+	case CONSTANT_Methodref:
+	case CONSTANT_InterfaceMethodref:
+	case CONSTANT_NameAndType:
+	case CONSTANT_MethodType:
+	case CONSTANT_MethodHandle:
+	case CONSTANT_InvokeDynamic:
+	default:
+		panic("java.lang.ClassFormatError: constant pool tag!")
+
 	}
 }
 
+//读取常量信息
 func readConstantInfo(reader *ClassReader, cp ConstantPool) ConstantInfo {
+	//获取tag值
 	tag := reader.readUint8()
+	//生成常量结构体
+	c := newConstantInfo(tag, cp)
+	c.readInfo(reader)
+	return c
 }
