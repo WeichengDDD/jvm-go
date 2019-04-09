@@ -30,7 +30,7 @@ func (self ConstantPool) getConstantInfo(index uint16) ConstantInfo {
 	panic("Invalid constant pool index!")
 }
 
-//从常量表查找类名
+//解析类名
 func (self ConstantPool) getClassName(index uint16) string {
 	classInfo := self.getConstantInfo(index).(*ConstantClassInfo)
 	return self.getUtf8(classInfo.nameIndex)
