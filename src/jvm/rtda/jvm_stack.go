@@ -1,5 +1,6 @@
 package rtda
 
+//虚拟机栈
 type Stack struct {
 	maxSize uint
 	size    uint

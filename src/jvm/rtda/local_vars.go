@@ -2,6 +2,7 @@ package rtda
 
 import "math"
 
+//局部变量表
 type LocalVars []Slot
 
 func newLocalVars(maxLocals uint) LocalVars {

@@ -1,5 +1,6 @@
 package rtda
 
+//栈帧
 type Frame struct {
 	lower        *Frame
 	localVars    LocalVars
@@ -8,7 +9,7 @@ type Frame struct {
 
 func newFrame(maxLocals uint, maxStack uint) *Frame {
 	return &Frame{
-		localVars: newLocalVars(maxLocals),
-		//	TODO
+		localVars:    newLocalVars(maxLocals),
+		operandStack: newOperandStack(maxStack),
 	}
 }

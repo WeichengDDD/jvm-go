@@ -1,14 +1,14 @@
 package rtda
 
-import "context"
-
 type Thread struct {
 	pc    int
 	stack *Stack
 }
 
 func NewThread() *Thread {
-
+	return &Thread{
+		stack: newStack(1024),
+	}
 }
 
 func (self *Thread) PC() int {
@@ -20,13 +20,13 @@ func (self *Thread) SetPC(pc int) {
 }
 
 func (self *Thread) PushFrame(frame *Frame) {
-	//	TODO
+	self.stack.push(frame)
 }
 
-func (selft *Thread) PopFrame() *Frame {
-	//	TODO
+func (self *Thread) PopFrame() *Frame {
+	return self.stack.pop()
 }
 
 func (self *Thread) CurrentFrame() *Frame {
-	//	TODO
+	return self.stack.top()
 }

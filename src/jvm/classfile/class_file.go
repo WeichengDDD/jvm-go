@@ -1,5 +1,7 @@
 package classfile
 
+import "fmt"
+
 type ClassFile struct {
 	magic        uint32
 	minorVersion uint16
@@ -16,11 +18,44 @@ type ClassFile struct {
 }
 
 func Parse(classData []byte) (cf *ClassFile, err error) {
-	return nil, nil
+	defer func() {
+		if r := recover(); r != nil {
+			var ok bool
+			err, ok = r.(error)
+			if !ok {
+				err = fmt.Errorf("%v", r)
+			}
+		}
+	}()
+
+	cr := &ClassReader{classData}
+	cf = &ClassFile{}
+	cf.read(cr)
+
+	return
 }
 
 func (self *ClassFile) read(reader *ClassReader) {
-
+	//检查魔数
+	self.readAndCheckMagic(reader)
+	//检查版本
+	self.readAndCheckVersion(reader)
+	//读取常量池
+	self.constantPool = readConstantPool(reader)
+	//类权限
+	self.accessFlags = reader.readUint16()
+	//u2索引值，指向本类描述符(CONSTANT_Class_info)
+	self.thisClass = reader.readUint16()
+	//u2索引值，指向父类描述符
+	self.superClass = reader.readUint16()
+	//索引数组，指向接口描述符
+	self.interfaces = reader.readUnit16s()
+	//字段表
+	self.fields = readMembers(reader, self.constantPool)
+	//方法表
+	self.methods = readMembers(reader, self.constantPool)
+	//属性表
+	self.attributs = readAttributes(reader, self.constantPool)
 }
 
 func (self *ClassFile) MajorVersion() uint16 {
@@ -33,8 +68,7 @@ func (self *ClassFile) ClassName() string {
 
 func (self *ClassFile) SuperClassName() string {
 	if self.superClass > 0 {
-		//TODO
-		return ""
+		return self.constantPool.getClassName(self.superClass)
 	}
 
 	//java.lang.Object没有超类
