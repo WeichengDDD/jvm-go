@@ -21,6 +21,7 @@ func newAttributeInfo(attrName string, attrLen uint32, cp ConstantPool) Attribut
 	return nil
 }
 
+//读取属性字段
 func readAttribute(reader *ClassReader, cp ConstantPool) AttributeInfo {
 	attrNameIndex := reader.readUint16()
 	attrName := cp.getUtf8(attrNameIndex)
@@ -30,6 +31,7 @@ func readAttribute(reader *ClassReader, cp ConstantPool) AttributeInfo {
 	return attrInfo
 }
 
+//读取属性列表
 func readAttributes(reader *ClassReader, cp ConstantPool) []AttributeInfo {
 	attributesCount := reader.readUint16()
 	attributes := make([]AttributeInfo, attributesCount)
