@@ -1,4 +1,4 @@
-package instructions
+package base
 
 import (
 	"jvm/rtda"
@@ -14,7 +14,7 @@ type Instruction interface {
 type NoOperandsInstruction struct{}
 
 func (self *NoOperandsInstruction) FetchOperands(reader *base.BytecodeReader) {
-	panic("implement me")
+
 }
 
 //跳转指令
