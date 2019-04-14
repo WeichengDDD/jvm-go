@@ -1,11 +1,11 @@
 package math
 
 import (
+	"jvm/rtda"
 	"jvmgo/instructions/base"
-	"jvmgo/rtda"
 )
 
-// Increment local variable by constant
+//int增加指令
 type IINC struct {
 	Index uint
 	Const int32

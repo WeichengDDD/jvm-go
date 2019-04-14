@@ -1,7 +1,7 @@
 package rtda
 
 import (
-	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
+	"jvmgo/rtda/heap"
 )
 
 // stack frame
