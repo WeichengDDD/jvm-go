@@ -5,6 +5,7 @@ type Frame struct {
 	lower        *Frame
 	localVars    LocalVars
 	operandStack *OperandStack
+	thread       *Thread
 }
 
 func newFrame(maxLocals uint, maxStack uint) *Frame {
@@ -20,4 +21,8 @@ func (self *Frame) OperandStack() *OperandStack {
 
 func (self *Frame) LocalVars() LocalVars {
 	return self.localVars
+}
+
+func (self *Frame) Thread() *Thread {
+	return self.thread
 }
