@@ -58,27 +58,6 @@ func (self *ClassFile) read(reader *ClassReader) {
 	self.attributs = readAttributes(reader, self.constantPool)
 }
 
-func (self *ClassFile) MajorVersion() uint16 {
-	return self.majorVersion
-}
-
-func (self *ClassFile) ClassName() string {
-	return ""
-}
-
-func (self *ClassFile) SuperClassName() string {
-	if self.superClass > 0 {
-		return self.constantPool.getClassName(self.superClass)
-	}
-
-	//java.lang.Object没有超类
-	return ""
-}
-
-func (self *ClassFile) InterfaceNames() []string {
-	return nil
-}
-
 //魔数检查
 func (self *ClassFile) readAndCheckMagic(reader *ClassReader) {
 	magic := reader.readUint32()
@@ -104,4 +83,36 @@ func (self *ClassFile) readAndCheckVersion(reader *ClassReader) {
 	}
 
 	panic("java.lang.UnsupportedClassVersionError!")
+}
+
+func (self *ClassFile) MajorVersion() uint16 {
+	return self.majorVersion
+}
+
+func (self *ClassFile) SuperClassName() string {
+	if self.superClass > 0 {
+		return self.constantPool.getClassName(self.superClass)
+	}
+
+	//java.lang.Object没有超类
+	return ""
+}
+
+func (self *ClassFile) InterfaceNames() []string {
+	return nil
+}
+
+func (self *ClassFile) AccessFlags() uint16 {
+	return self.accessFlags
+}
+
+func (self *ClassFile) Fields() []*MemberInfo {
+	return self.fields
+}
+func (self *ClassFile) Methods() []*MemberInfo {
+	return self.methods
+}
+
+func (self *ClassFile) ClassName() string {
+	return self.constantPool.getClassName(self.thisClass)
 }

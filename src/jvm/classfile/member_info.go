@@ -29,6 +29,10 @@ func readMembers(reader *ClassReader, cp ConstantPool) []*MemberInfo {
 	return members
 }
 
+func (self *MemberInfo) AccessFlags() uint16 {
+	return self.accessFlags
+}
+
 func (self *MemberInfo) Name() string {
 	return self.cp.getUtf8(self.nameIndex)
 }
