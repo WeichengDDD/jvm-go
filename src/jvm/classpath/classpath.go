@@ -5,20 +5,20 @@ import (
 	"path/filepath"
 )
 
-type Classpath struct {
+type ClassPath struct {
 	bootClasspath Entry
 	extClasspath  Entry
 	userClasspath Entry
 }
 
-func Parse(jreOption string, cpOption string) *Classpath {
-	cp := &Classpath{}
+func Parse(jreOption string, cpOption string) *ClassPath {
+	cp := &ClassPath{}
 	cp.parseBootAndExtClasspath(jreOption)
 	cp.parseUserClasspath(cpOption)
 	return cp
 }
 
-func (self *Classpath) ReadClass(className string) (bytes []byte, entry Entry, err error) {
+func (self *ClassPath) ReadClass(className string) (bytes []byte, entry Entry, err error) {
 	className += ".class"
 
 	if data, entry, err := self.bootClasspath.readClass(className); err == nil {
@@ -30,11 +30,11 @@ func (self *Classpath) ReadClass(className string) (bytes []byte, entry Entry, e
 	return self.userClasspath.readClass(className)
 }
 
-func (self *Classpath) String() string {
+func (self *ClassPath) String() string {
 	return self.userClasspath.String()
 }
 
-func (self *Classpath) parseBootAndExtClasspath(jreOption string) {
+func (self *ClassPath) parseBootAndExtClasspath(jreOption string) {
 	jreDir := getJreDir(jreOption)
 
 	// 加载 jre/lib/*
@@ -70,7 +70,7 @@ func exists(path string) bool {
 	return true
 }
 
-func (self *Classpath) parseUserClasspath(cpOption string) {
+func (self *ClassPath) parseUserClasspath(cpOption string) {
 	if cpOption == "" {
 		cpOption = "."
 	}

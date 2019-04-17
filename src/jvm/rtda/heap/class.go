@@ -1,10 +1,8 @@
 package heap
 
 import (
-	"github.com/therecipe/qt/nfc"
 	"jvm/classfile"
 	"jvm/rtda"
-	"jvmgo/rtda/heap"
 )
 
 type Class struct {
@@ -13,9 +11,9 @@ type Class struct {
 	superClassName    string
 	interfaceNames    []string
 	constantPool      *classfile.ConstantPool
-	fields            []*heap.Field
-	methods           []*heap.Method
-	loader            *heap.ClassLoader
+	fields            []*Field
+	methods           []*Method
+	loader            *ClassLoader
 	superClass        *Class
 	interfaces        []*Class
 	instanceSlotCount uint
